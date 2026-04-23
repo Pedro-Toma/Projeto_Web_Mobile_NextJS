@@ -1,0 +1,68 @@
+.pagina-detalhes {
+    display: flex;
+    flex-direction: column;
+}
+
+/* (Botão) Voltar a Home Page */
+
+.voltar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14pt;
+    line-height: 1;
+    width: max-content;
+    white-space: nowrap;
+    margin-bottom: 20px;
+    padding: 15px 0px;
+    color: black;
+    border: none;
+    background-color: white;
+}
+
+.voltar i {
+    font-size: 15px;
+    padding: 0px 20px;
+    margin: 0px;
+    color: black;
+}
+
+.link-home:hover  {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Seção do Produto */
+
+/* Nome */
+
+.pagina-detalhes > h1{
+    display: flex;
+    font-size: 24pt;
+    font-weight: bolder;
+    margin-bottom: 20px;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.pagina-produto {
+    display: flex;
+    align-items: flex-start;
+    flex: 1 1 0;
+    gap: 5%;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    .pagina-detalhes > h1{
+        font-size: 20pt;
+        justify-content: center;
+    }
+
+    .pagina-produto {
+        flex-direction: column;
+        align-items: center;
+    }
+}

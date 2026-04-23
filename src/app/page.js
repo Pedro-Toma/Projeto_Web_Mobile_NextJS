@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Header from "./components/Header.js"
-import SecaoLateral from "./components/SecaoLateral.js";
+import SecaoLateral from "./components/secaoLateral/SecaoLateral.jsx";
 import Contador from "./components/Contador.js"
 
 export default function Home() {

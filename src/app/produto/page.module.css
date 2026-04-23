@@ -1,0 +1,36 @@
+.pagina-detalhes {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.pagina-detalhes > h1{
+    display: flex;
+    font-size: 24pt;
+    font-weight: bolder;
+    margin-bottom: 20px;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.pagina-produto {
+    display: flex;
+    align-items: flex-start;
+    flex: 1 1 0;
+    gap: 5%;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    .pagina-detalhes > h1{
+        font-size: 20pt;
+        justify-content: center;
+    }
+
+    .pagina-produto {
+        flex-direction: column;
+        align-items: center;
+    }
+}
