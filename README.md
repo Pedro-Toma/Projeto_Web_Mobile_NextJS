@@ -9,7 +9,8 @@ Pedro Toma - 10390171
 ## Processo de Ideação
 Consideramos a ideia de rastreabilidade de preços, ficamos em dúvida entre 2 nichos: produtos de mercado e produtos eletrônicos.
 A ideia é que o usuário consiga comparar preços e saber o melhor local físico ou virtual onde ele possa comprar.
-Optamos por abordar os produtos de mercado, porque preferimos abordar um público mais geral, como nem todos são ligados à produtos tecnológicos. Além do mais, conseguimos identificar uma necessidade mais clara acerca do assunto.
+Essa decisão foi baseada em se tratar de um nicho mais inclusivo, que atende a um público amplo e diverso, independentemente do nível de familiaridade com tecnologia. Além disso, produtos de mercado fazem parte da rotina frequente dos consumidores, o que aumenta a recorrência de uso da solução. Por fim, foi identificada uma necessidade mais evidente nesse contexto, especialmente diante da variação constante de preços em supermercados e do impacto direto no orçamento das famílias.
+Dessa forma, a escolha por esse nicho se mostra mais alinhada com a proposta de gerar valor prático e acessível para um maior número de usuários.
 
 ## Caráter Extensionista
 A proposta é poder facilitar a consulta de produtos, para que as pessoas possam economizar nas suas compras e tomar uma decisão mais eficiente com relação ao local, podendo escolher um lugar mais próximo a sua casa, sem perder um desconto ou valor.
