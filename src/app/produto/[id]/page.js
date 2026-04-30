@@ -42,7 +42,7 @@ export default function Produto() {
         };
         
         return produto.ofertas.map(oferta => (
-            <article className="produto-mercado">
+            <article className="produto-mercado" key={oferta.endereco}>
                 <img src={oferta.mercado}/>
                 <div className="produto-conteudo">
                     <p> Endereço: {oferta.endereco} </p>
