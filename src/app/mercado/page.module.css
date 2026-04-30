@@ -55,6 +55,39 @@
     box-sizing: border-box;
 }
 
+.mercado img{
+    margin: 0px;
+    width: 120px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 30px;
+    background-color: white;
+    padding: 20px 10px;
+    box-shadow: 0px 0px 16px var(--cor-principal);
+    margin-bottom: 20px;
+}
+
+.mercado p {
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.info-mercado > h1 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    font-size: 20pt;
+    font-weight: bold;
+    max-width: 100%;
+}
+
+.info-mercado > p {
+    margin-left: 5px;
+    font-size: 14pt;
+    max-width: 100%;
+}
+
 @media (max-width: 600px) {
     .pagina-detalhes > h1{
         font-size: 20pt;

@@ -36,10 +36,12 @@ export default function PaginaMercado() {
       <section className="pagina-mercado">
 
         <section className="info-mercado">
-          <img src={mercado.imagem} alt={mercado.nome} />
+            <div class="imagem-mercado">
+          <img className="pagina-mercado-imagem" src={mercado.imagem} alt={mercado.nome}  />
+          </div>
           <h1>{mercado.nome}</h1>
           <p>{mercado.endereco}</p>
-        </section>
+        </section>        
 
         <section className="produtos-mercado">
 
