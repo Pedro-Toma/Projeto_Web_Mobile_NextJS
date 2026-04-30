@@ -1,7 +1,4 @@
 "use client"
-import Link from "next/link"
-import Header from "./components/headers/Header.jsx"
-import SecaoLateral from "./components/secaoLateral/SecaoLateral.jsx";
 import { useState } from 'react';
 
 export default function Home() {
@@ -120,12 +117,11 @@ export default function Home() {
   });
 
   const produtosFiltrados = categoriaAtiva === "Todos" 
-    ? produtos 
-    : produtos.filter(p => p.categoria === categoriaAtiva);
+    ? produtosComPreco 
+    : produtosComPreco.filter(p => p.categoria === categoriaAtiva);
 
   return (
     <>
-      <Header/>
       <form id="Pesquisa-Mobile" className="pesquisa-mobile">
           <i className="fa fa-search icon"></i>
           <input type="text" placeholder="Pesquisar..."/>
