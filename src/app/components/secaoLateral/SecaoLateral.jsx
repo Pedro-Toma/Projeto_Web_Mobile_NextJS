@@ -58,15 +58,15 @@ function renderizarLista() {
 
 const SecaoLateral = () => {
     return (
-        <aside class="secao-lateral">
+        <aside className="secao-lateral">
             <button id="toggle-lista"> 
-                <i class="fa-solid fa-chevron-left"></i> 
+                <i className="fa-solid fa-chevron-left"></i> 
                 Lista
             </button>
-            <section class="lista">
+            <section className="lista">
                 <ul id="lista-itens">
                 </ul>
-                <footer class="rodape-lista">
+                <footer className="rodape-lista">
                     <p id="preco-total"></p>
                 </footer>
             </section>

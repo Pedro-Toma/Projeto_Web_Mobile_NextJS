@@ -1,5 +1,6 @@
 "use client"
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Home() {
 
@@ -7,8 +8,7 @@ export default function Home() {
 
   // Dados de produtos, mercados e lista do usuário
 
-  const produtos = [
-      {
+  const produtos = [{
           id: 1,
           nome: "Coca-Cola 2L",
           imagem: "/imagens-produtos/coca.jpg",
@@ -25,7 +25,7 @@ export default function Home() {
           imagem: "/imagens-produtos/kinder-ovo.avif",
           categoria: "Doces",
           ofertas: [
-              { loja: "Lojas Americanas", preco: 7.99, mercado: "/imagens-mercados/mambo.webp", endereco: "R. Aurélia, 1973 - Vila Romana" },
+              { loja: "Mambo", preco: 7.99, mercado: "/imagens-mercados/mambo.webp", endereco: "R. Aurélia, 1973 - Vila Romana" },
               { loja: "Pão de Açúcar", preco: 9.20, mercado: "/imagens-mercados/pao_de_acucar.png", endereco: "R. Maranhão, 875" }
           ]
       },
@@ -45,7 +45,7 @@ export default function Home() {
           imagem: "/imagens-produtos/monster-branco.avif",
           categoria: "Energéticos e Isotônicos",
           ofertas: [
-              { loja: "Posto Shell", preco: 12.00, mercado: "/imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" },
+              { loja: "Extra", preco: 12.00, mercado: "/imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" },
               { loja: "Assaí", preco: 8.69, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
               { loja: "Mambo", preco: 9.98, mercado: "/imagens-mercados/mambo.webp", endereco: "R. Aurélia, 1973 - Vila Romana" }
           ]
@@ -56,7 +56,7 @@ export default function Home() {
           imagem: "/imagens-produtos/sabonete-dove.avif",
           categoria: "Higiene e Perfumaria",
           ofertas: [
-              { loja: "Droga Raia", preco: 4.50, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
+              { loja: "Assaí", preco: 4.50, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
               { loja: "Carrefour", preco: 3.99, mercado: "/imagens-mercados/carrefour.png", endereco: "Av. Rio Branco, 115" }
           ]
       },
@@ -68,7 +68,7 @@ export default function Home() {
           ofertas: [
               { loja: "Assaí", preco: 7.15, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
               { loja: "Pão de Açúcar", preco: 8.49, mercado: "/imagens-mercados/pao_de_acucar.png", endereco: "R. Maranhão, 875" },
-              { loja: "Americanas", preco: 7.99, mercado: "/imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" }
+              { loja: "Extra", preco: 7.99, mercado: "/imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" }
           ]
       },
       {
@@ -78,7 +78,7 @@ export default function Home() {
           categoria: "Salgadinhos e Snacks",
           ofertas: [
               { loja: "Extra", preco: 1.55, mercado: "/imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" },
-              { loja: "Assaí Atacadista", preco: 1.38, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" }
+              { loja: "Assaí", preco: 1.38, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" }
           ]
       },
   ];
@@ -181,7 +181,8 @@ export default function Home() {
       if (listaFiltrada.length === 0) return <p>Nenhum produto encontrado nesta categoria.</p>;
 
       return listaFiltrada.map(produto => ( 
-          <article className="produto" key={produto.id}>
+        <Link href={`/produto/${produto.id}`} key={produto.id}>
+          <article className="produto">
               <img src={produto.imagem}/>
               <section className="info-produto">
                   <p> {produto.nome} </p>
@@ -195,17 +196,20 @@ export default function Home() {
                 +
               </button>
           </article>
+        </Link>
       )
     );
   }
 
   function gerarCardsMercados() {
     return mercados.map(mercado => (
-          <article className="mercado" key={mercado.endereco}>
+        <Link href={`/mercado/${mercado.nome}`} key={mercado.endereco}>
+          <article className="mercado">
             <img src={mercado.imagem}/>
             <p> {mercado.nome} </p>
             <p> {mercado.endereco} </p>
           </article>
+        </Link>
       )
     );
   }
