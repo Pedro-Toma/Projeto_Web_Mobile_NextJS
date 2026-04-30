@@ -17,16 +17,16 @@ export default function Produto() {
     }
 
     return(
-        <section class="pagina-detalhes">
+        <section className="pagina-detalhes">
             <button className="voltar">
                 <Link href={`/`} className="link-home"> Home </Link> &gt; {produto.nome}
             </button>
             <h1>{produto.nome}</h1>
-            <section class="pagina-produto">
-                <div class="imagem-produto">
+            <section className="pagina-produto">
+                <div className="imagem-produto">
                     <img src={produto.imagem}/>
                 </div>
-                <section class="lista-mercados">
+                <section className="lista-mercados">
                     {gerarMercadosDoProduto(produto.nome)}
                 </section>
             </section>
@@ -42,13 +42,13 @@ export default function Produto() {
         };
         
         return produto.ofertas.map(oferta => (
-            <article class="produto-mercado">
+            <article className="produto-mercado">
                 <img src={oferta.mercado}/>
-                <div class="produto-conteudo">
+                <div className="produto-conteudo">
                     <p> Endereço: {oferta.endereco} </p>
-                    <p class="produto-preco"> R$ {oferta.preco.toFixed(2).replace('.', ',')}</p>
+                    <p className="produto-preco"> R$ {oferta.preco.toFixed(2).replace('.', ',')}</p>
                 </div>
-                <button class="adicionar-produto"
+                <button className="adicionar-produto"
                     data-nome={produto.nome} 
                     data-preco={oferta.preco} 
                     data-imagem={produto.imagem}>&plus;
