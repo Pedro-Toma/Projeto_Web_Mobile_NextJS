@@ -54,3 +54,24 @@ function renderizarLista() {
         precoTotalElemento.innerHTML = `Total: R$ ${somaTotal.toFixed(2).replace('.', ',')}`;
     }
 }
+
+
+const SecaoLateral = () => {
+    return (
+        <aside class="secao-lateral">
+            <button id="toggle-lista"> 
+                <i class="fa-solid fa-chevron-left"></i> 
+                Lista
+            </button>
+            <section class="lista">
+                <ul id="lista-itens">
+                </ul>
+                <footer class="rodape-lista">
+                    <p id="preco-total"></p>
+                </footer>
+            </section>
+        </aside>
+    );
+};
+
+export default SecaoLateral;
