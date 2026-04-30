@@ -19,7 +19,7 @@ function renderizarLista() {
     container.innerHTML = "";
 
     if (minhaLista.length === 0) {
-        container.innerHTML = '<p class="vazio">Adicione Itens à Lista......</p>';
+        container.innerHTML = '<p className="vazio">Adicione Itens à Lista......</p>';
         precoTotalElemento.innerHTML = "Total: R$ 0,00";
     } else {
 
@@ -33,15 +33,15 @@ function renderizarLista() {
             somaTotal += subtotal;
             
             const li = document.createElement('li');
-            li.className = 'produto-lista';
+            li.classNameName = 'produto-lista';
 
             li.innerHTML = `
                 <img src="${produto.imagem}">
-                <article class="produto-info-lista">
+                <article className="produto-info-lista">
                     <p> ${produto.nome} </p>
-                    <p class-> R$ ${(produto.preco * quantidade).toFixed(2).replace('.', ',')} </p>
+                    <p className-> R$ ${(produto.preco * quantidade).toFixed(2).replace('.', ',')} </p>
                 </article>
-                <section class="controle-quantidade">
+                <section className="controle-quantidade">
                     <button onclick="alterarQuantidade(${indice}, 1)">&plus;</button>
                     <p> ${quantidade} </p>
                     <button onclick="alterarQuantidade(${indice}, -1)">&minus;</button>
@@ -58,15 +58,15 @@ function renderizarLista() {
 
 const SecaoLateral = () => {
     return (
-        <aside class="secao-lateral">
+        <aside className="secao-lateral">
             <button id="toggle-lista"> 
-                <i class="fa-solid fa-chevron-left"></i> 
+                <i className="fa-solid fa-chevron-left"></i> 
                 Lista
             </button>
-            <section class="lista">
+            <section className="lista">
                 <ul id="lista-itens">
                 </ul>
-                <footer class="rodape-lista">
+                <footer className="rodape-lista">
                     <p id="preco-total"></p>
                 </footer>
             </section>
