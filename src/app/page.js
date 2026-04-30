@@ -2,8 +2,11 @@
 import Link from "next/link"
 import Header from "./componentes/headers/Header.js"
 import SecaoLateral from "./components/SecaoLateral.js";
+import { useState } from 'react';
 
 export default function Home() {
+
+  const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
 
   // Dados de produtos, mercados e lista do usuário
 
@@ -14,9 +17,9 @@ export default function Home() {
           imagem: "/imagens-produtos/coca.jpg",
           categoria: "Bebidas",
           ofertas: [
-              { loja: "Assaí", preco: 8.99, mercado: "imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
-              { loja: "Pão de Açúcar", preco: 9.49, mercado: "imagens-mercados/pao_de_acucar.png", endereco: "R. Maranhão, 875" },
-              { loja: "Carrefour", preco: 8.75, mercado: "imagens-mercados/carrefour.png", endereco: "Av. Rio Branco, 115" }
+              { loja: "Assaí", preco: 8.99, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
+              { loja: "Pão de Açúcar", preco: 9.49, mercado: "/imagens-mercados/pao_de_acucar.png", endereco: "R. Maranhão, 875" },
+              { loja: "Carrefour", preco: 8.75, mercado: "/imagens-mercados/carrefour.png", endereco: "Av. Rio Branco, 115" }
           ]
       },
       {
@@ -25,8 +28,8 @@ export default function Home() {
           imagem: "/imagens-produtos/kinder-ovo.avif",
           categoria: "Doces",
           ofertas: [
-              { loja: "Lojas Americanas", preco: 7.99, mercado: "imagens-mercados/mambo.webp", endereco: "R. Aurélia, 1973 - Vila Romana" },
-              { loja: "Pão de Açúcar", preco: 9.20, mercado: "imagens-mercados/pao_de_acucar.png", endereco: "R. Maranhão, 875" }
+              { loja: "Lojas Americanas", preco: 7.99, mercado: "/imagens-mercados/mambo.webp", endereco: "R. Aurélia, 1973 - Vila Romana" },
+              { loja: "Pão de Açúcar", preco: 9.20, mercado: "/imagens-mercados/pao_de_acucar.png", endereco: "R. Maranhão, 875" }
           ]
       },
       {
@@ -35,8 +38,8 @@ export default function Home() {
           imagem: "/imagens-produtos/leite-parmalat.avif",
           categoria: "Padaria e Matinais",
           ofertas: [
-              { loja: "Assaí Atacadista", preco: 5.49, mercado: "imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
-              { loja: "Extra", preco: 5.98, mercado: "imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" }
+              { loja: "Assaí Atacadista", preco: 5.49, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
+              { loja: "Extra", preco: 5.98, mercado: "/imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" }
           ]
       },
       {
@@ -45,9 +48,9 @@ export default function Home() {
           imagem: "/imagens-produtos/monster-branco.avif",
           categoria: "Energéticos e Isotônicos",
           ofertas: [
-              { loja: "Posto Shell", preco: 12.00, mercado: "imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" },
-              { loja: "Assaí", preco: 8.69, mercado: "imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
-              { loja: "Mambo", preco: 9.98, mercado: "imagens-mercados/mambo.webp", endereco: "R. Aurélia, 1973 - Vila Romana" }
+              { loja: "Posto Shell", preco: 12.00, mercado: "/imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" },
+              { loja: "Assaí", preco: 8.69, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
+              { loja: "Mambo", preco: 9.98, mercado: "/imagens-mercados/mambo.webp", endereco: "R. Aurélia, 1973 - Vila Romana" }
           ]
       },
       {
@@ -56,8 +59,8 @@ export default function Home() {
           imagem: "/imagens-produtos/sabonete-dove.avif",
           categoria: "Higiene e Perfumaria",
           ofertas: [
-              { loja: "Droga Raia", preco: 4.50, mercado: "imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
-              { loja: "Carrefour", preco: 3.99, mercado: "imagens-mercados/carrefour.png", endereco: "Av. Rio Branco, 115" }
+              { loja: "Droga Raia", preco: 4.50, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
+              { loja: "Carrefour", preco: 3.99, mercado: "/imagens-mercados/carrefour.png", endereco: "Av. Rio Branco, 115" }
           ]
       },
       {
@@ -66,9 +69,9 @@ export default function Home() {
           imagem: "/imagens-produtos/bis.avif",
           categoria: "Doces",
           ofertas: [
-              { loja: "Assaí", preco: 7.15, mercado: "imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
-              { loja: "Pão de Açúcar", preco: 8.49, mercado: "imagens-mercados/pao_de_acucar.png", endereco: "R. Maranhão, 875" },
-              { loja: "Americanas", preco: 7.99, mercado: "imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" }
+              { loja: "Assaí", preco: 7.15, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" },
+              { loja: "Pão de Açúcar", preco: 8.49, mercado: "/imagens-mercados/pao_de_acucar.png", endereco: "R. Maranhão, 875" },
+              { loja: "Americanas", preco: 7.99, mercado: "/imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" }
           ]
       },
       {
@@ -77,8 +80,8 @@ export default function Home() {
           imagem: "/imagens-produtos/barra-nutry.avif",
           categoria: "Salgadinhos e Snacks",
           ofertas: [
-              { loja: "Extra", preco: 1.55, mercado: "imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" },
-              { loja: "Assaí Atacadista", preco: 1.38, mercado: "imagens-mercados/assai.png", endereco: "R. James Holland, 668" }
+              { loja: "Extra", preco: 1.55, mercado: "/imagens-mercados/extra.png", endereco: "Av. Gen. Olímpio da Silveira, 414 - Barra Funda" },
+              { loja: "Assaí Atacadista", preco: 1.38, mercado: "/imagens-mercados/assai.png", endereco: "R. James Holland, 668" }
           ]
       },
   ];
@@ -113,10 +116,13 @@ export default function Home() {
       p.preco = melhorOferta.preco;
   });
 
+  const produtosFiltrados = categoriaAtiva === "Todos" 
+    ? produtos 
+    : produtos.filter(p => p.categoria === categoriaAtiva);
+
   return (
     <>
       <Header/>
-      <nav>menu: <Link href="/produto"> Produto </Link></nav>
       <form id="Pesquisa-Mobile" className="pesquisa-mobile">
           <i className="fa fa-search icon"></i>
           <input type="text" placeholder="Pesquisar..."/>
@@ -125,7 +131,11 @@ export default function Home() {
         <article className="titulo">Produtos Mais Populares</article>
         {gerarCategorias()} 
         <section className="produtos">
-            {gerarCardsProdutos()} 
+            {gerarCardsProdutos("Todos", produtosFiltrados)} 
+        </section>
+        <article class="titulo">Mercados</article>
+        <section class="mercados">
+            {gerarCardsMercados()}
         </section>
       </main>
       <SecaoLateral/>
@@ -137,17 +147,17 @@ export default function Home() {
       return <>
           <section className="categorias-desktop">
               <ul id="categorias-filtros">
-                  <li data-categoria="Todos"> Todos </li>
-                  <li data-categoria="Higiene e Perfumaria"> Higiene e Perfumaria </li>
-                  <li data-categoria="Salgadinhos e Snacks"> Salgadinhos e Snacks </li>
-                  <li data-categoria="Padaria e Matinais"> Padaria e Matinais </li>
-                  <li data-categoria="Bebidas"> Bebidas </li>
-                  <li data-categoria="Energéticos e Isotônicos"> Energéticos e Isotônicos </li>
-                  <li data-categoria="Doces"> Doces </li>
+                  <li onClick={() => setCategoriaAtiva("Todos")} className={categoriaAtiva === "Todos" ? "filtro-ativo" : ""}> Todos </li>
+                  <li onClick={() => setCategoriaAtiva("Higiene e Perfumaria")} className={categoriaAtiva === "Higiene e Perfumaria" ? "filtro-ativo" : ""}> Higiene e Perfumaria </li>
+                  <li onClick={() => setCategoriaAtiva("Salgadinhos e Snacks")} className={categoriaAtiva === "Salgadinhos e Snacks" ? "filtro-ativo" : ""}> Salgadinhos e Snacks </li>
+                  <li onClick={() => setCategoriaAtiva("Padaria e Matinais")} className={categoriaAtiva === "Padaria e Matinais" ? "filtro-ativo" : ""}> Padaria e Matinais </li>
+                  <li onClick={() => setCategoriaAtiva("Bebidas")} className={categoriaAtiva === "Bebidas" ? "filtro-ativo" : ""}> Bebidas </li>
+                  <li onClick={() => setCategoriaAtiva("Energéticos e Isotônicos")} className={categoriaAtiva === "Energéticos e Isotônicos" ? "filtro-ativo" : ""}> Energéticos e Isotônicos </li>
+                  <li onClick={() => setCategoriaAtiva("Doces")} className={categoriaAtiva === "Doces" ? "filtro-ativo" : ""}> Doces </li>
               </ul>
           </section>
           <section className="categorias-mobile">
-              <select id="filtros-mobile" defaultValue="Todos">
+              <select id="filtros-mobile" value={categoriaAtiva} onChange={(e) => setCategoriaAtiva(e.target.value)}>
                   <option value="Todos">Todos</option>
                   <option value="Higiene e Perfumaria">Higiene e Perfumaria</option>
                   <option value="Salgadinhos e Snacks">Salgadinhos e Snacks</option>
@@ -174,10 +184,10 @@ export default function Home() {
 
       return listaFiltrada.map(produto => ( 
           <article className="produto" key={produto.id}>
-              <img src={produto.imagem} onclick="renderizarPaginaProduto(${produto.id})"/>
+              <img src={produto.imagem}/>
               <section className="info-produto">
                   <p> {produto.nome} </p>
-                  <p className="preco"> R$ ${produto.preco.toFixed(2).replace('.', ',')} </p>
+                  <p className="preco"> R$ {produto.preco.toFixed(2).replace('.', ',')} </p>
               </section>
               <button className="adicionar-home" 
                   data-nome={produto.nome} 
@@ -186,6 +196,17 @@ export default function Home() {
               >
                 +
               </button>
+          </article>
+      )
+    );
+  }
+
+  function gerarCardsMercados() {
+    return mercados.map(mercado => (
+          <article className="mercado">
+            <img src={mercado.imagem}/>
+            <p> {mercado.nome} </p>
+            <p> {mercado.endereco} </p>
           </article>
       )
     );
