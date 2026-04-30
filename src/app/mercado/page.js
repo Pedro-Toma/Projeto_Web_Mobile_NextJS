@@ -1,54 +1,55 @@
-function renderizarPaginaMercado(nomeMercado) {
-    mostrarPesquisa(true);
-    const main = document.querySelector('.conteudo');
+"use client";
 
-    const mercado = mercados.find(m => m.nome === nomeMercado);
+import { useState } from "react";
 
-    if (!mercado) {
-        alert("Mercado Não Encontrado");
-        return;
-    }
+const PaginaMercado = ({ mercados, produtos, renderizarHome }) => {
+  const [nomeMercado, setNomeMercado] = useState(null);
 
-    let produtosNesteMercado = [];
-    
-    produtos.forEach(produto => {
-        const ofertaNoMercado = produto.ofertas.find(oferta => oferta.loja === nomeMercado);
-        
-        if (ofertaNoMercado) {
-            produtosNesteMercado.push({
-                ...produto,
-                precoLocal: ofertaNoMercado.preco 
-            });
-        }
-    });
+  const mercado = mercados.find(m => m.nome === nomeMercado);
 
-    // Renderiza a tela
-    main.innerHTML = `
-        <section class="pagina-detalhes">
-            <button onclick="renderizarHome()" class="voltar">
-                <span class="link-home">Home</span> <i class="fa-solid fa-chevron-right"></i> ${mercado.nome}
-            </button>
-            <section class="pagina-mercado">
-                <section class="info-mercado">
-                    <div class="imagem-mercado">
-                        <img src="${mercado.imagem}">
-                    </div>
-                    <h1>${mercado.nome}</h1>
-                    <p>${mercado.endereco}</p>
-                </section>
-                <section class="produtos-mercado">
-                    <article class="titulo">Produtos Mais Populares</article>
-                    ${gerarCategorias()} 
-                    <section class="produtos">
-                        ${gerarCardsProdutos("Todos", produtosNesteMercado)} 
-                    </section>
-                </section>
-            </section>
+  if (!mercado) {
+    return <p>Selecione um mercado</p>;
+  }
+
+  const produtosNesteMercado = produtos
+    .map(produto => {
+      const oferta = produto.ofertas.find(o => o.loja === nomeMercado);
+      if (!oferta) return null;
+
+      return {
+        ...produto,
+        precoLocal: oferta.preco
+      };
+    })
+    .filter(Boolean);
+
+  return (
+    <section className="pagina-detalhes">
+      <button onClick={renderizarHome} className="voltar">
+        <span className="link-home">Home</span> &gt; {mercado.nome}
+      </button>
+
+      <section className="pagina-mercado">
+        <section className="info-mercado">
+          <div className="imagem-mercado">
+            <img src={mercado.imagem} alt={mercado.nome} />
+          </div>
+          <h1>{mercado.nome}</h1>
+          <p>{mercado.endereco}</p>
         </section>
-    `;
 
-    // Ativa os botões de adicionar na lista para esta nova tela
-    configurarBotoesAdicionar('.adicionar-home');
-    configurarFiltros(produtosNesteMercado);
-    renderizarLista();
-}
+        <section className="produtos-mercado">
+          <article className="titulo">Produtos Mais Populares</article>
+
+          {gerarCategorias()}
+
+          <section className="produtos">
+            {gerarCardsProdutos("Todos", produtosNesteMercado)}
+          </section>
+        </section>
+      </section>
+    </section>
+  );
+};
+
+export default PaginaMercado;

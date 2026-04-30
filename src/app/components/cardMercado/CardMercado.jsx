@@ -1,9 +1,19 @@
-function gerarCardsMercados() {
-    return mercados.map(mercado => `
-        <article class="mercado" onclick="renderizarPaginaMercado('${mercado.nome}')">
-            <img src="${mercado.imagem}">
-            <p> ${mercado.nome} </p>
-            <p> ${mercado.endereco} </p>
+const gerarCardsMercados = (mercados) => {
+  return (
+    <>
+      {mercados.map((mercado) => (
+        <article
+          key={mercado.nome}
+          className="mercado"
+          onClick={() => renderizarPaginaMercado(mercado.nome)}
+        >
+          <img src={mercado.imagem} alt={mercado.nome} />
+          <p>{mercado.nome}</p>
+          <p>{mercado.endereco}</p>
         </article>
-    `).join('');
-}
+      ))}
+    </>
+  );
+};
+
+export default gerarCardsMercados;

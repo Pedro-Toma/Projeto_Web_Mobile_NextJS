@@ -1,7 +1,6 @@
 import Link from "next/link"
-import Header from "./components/Header.js"
+import Header from "./components/headers/Header.jsx"
 import SecaoLateral from "./components/secaoLateral/SecaoLateral.jsx";
-import Contador from "./components/Contador.js"
 
 export default function Home() {
 
@@ -14,9 +13,7 @@ export default function Home() {
           <input type="text" placeholder="Pesquisar..."/>
       </form>
       <main className="conteudo">
-        <Contador/>
       </main>
-      <SecaoLateral/>
     </>
   );
 }
