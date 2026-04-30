@@ -1,0 +1,40 @@
+.mercados {
+    height: 260px;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    max-width: calc(100vw - 55px);
+}
+
+.mercado {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 200px;
+    width: 150px;
+    margin-right: 14px;
+    cursor: pointer;
+    margin-top: 14px;
+    margin-left: 25px;
+}
+
+
+.mercado img{
+    margin: 0px;
+    width: 120px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 30px;
+    background-color: white;
+    padding: 20px 10px;
+    box-shadow: 0px 0px 16px var(--cor-principal);
+    margin-bottom: 20px;
+}
+
+.mercado p {
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+}

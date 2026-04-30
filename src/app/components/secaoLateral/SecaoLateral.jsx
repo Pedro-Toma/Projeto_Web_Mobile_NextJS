@@ -1,0 +1,56 @@
+function alterarQuantidade(indice, valor) {
+    if (!minhaLista[indice].quantidade) minhaLista[indice].quantidade = 1;
+    
+    minhaLista[indice].quantidade += valor;
+
+    if (minhaLista[indice].quantidade < 1) {
+        removerDaLista(indice);
+    } else {
+        renderizarLista();
+    }
+}
+
+function renderizarLista() {
+
+    const container = document.getElementById('lista-itens');
+    const precoTotalElemento = document.getElementById('preco-total');
+    
+    let somaTotal = 0;
+    container.innerHTML = "";
+
+    if (minhaLista.length === 0) {
+        container.innerHTML = '<p class="vazio">Adicione Itens à Lista......</p>';
+        precoTotalElemento.innerHTML = "Total: R$ 0,00";
+    } else {
+
+        const fragmento = document.createDocumentFragment();
+
+        minhaLista.forEach((produto, indice) => {
+
+            const quantidade = produto.quantidade || 1;
+            const subtotal = produto.preco * quantidade;
+
+            somaTotal += subtotal;
+            
+            const li = document.createElement('li');
+            li.className = 'produto-lista';
+
+            li.innerHTML = `
+                <img src="${produto.imagem}">
+                <article class="produto-info-lista">
+                    <p> ${produto.nome} </p>
+                    <p class-> R$ ${(produto.preco * quantidade).toFixed(2).replace('.', ',')} </p>
+                </article>
+                <section class="controle-quantidade">
+                    <button onclick="alterarQuantidade(${indice}, 1)">&plus;</button>
+                    <p> ${quantidade} </p>
+                    <button onclick="alterarQuantidade(${indice}, -1)">&minus;</button>
+                </section>
+            `;
+            fragmento.appendChild(li);
+        });
+        container.appendChild(fragmento);
+        
+        precoTotalElemento.innerHTML = `Total: R$ ${somaTotal.toFixed(2).replace('.', ',')}`;
+    }
+}
