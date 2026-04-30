@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Projeto_Web_Mobile
 
-## Getting Started
+## Integrantes:
 
-First, run the development server:
+Gabriel Fuentes - 10408876  
+Guilherme Florio - 10409698  
+Pedro Toma - 10390171  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Processo de Ideação
+Consideramos a ideia de rastreabilidade de preços, ficamos em dúvida entre 2 nichos: produtos de mercado e produtos eletrônicos.
+A ideia é que o usuário consiga comparar preços e saber o melhor local físico ou virtual onde ele possa comprar.
+Essa decisão foi baseada em se tratar de um nicho mais inclusivo, que atende a um público amplo e diverso, independentemente do nível de familiaridade com tecnologia. Além disso, produtos de mercado fazem parte da rotina frequente dos consumidores, o que aumenta a recorrência de uso da solução. Por fim, foi identificada uma necessidade mais evidente nesse contexto, especialmente diante da variação constante de preços em supermercados e do impacto direto no orçamento das famílias.
+Dessa forma, a escolha por esse nicho se mostra mais alinhada com a proposta de gerar valor prático e acessível para um maior número de usuários.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Caráter Extensionista
+A proposta é poder facilitar a consulta de produtos, para que as pessoas possam economizar nas suas compras e tomar uma decisão mais eficiente com relação ao local, podendo escolher um lugar mais próximo a sua casa, sem perder um desconto ou valor.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Imagens dos Wireframes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Desktop
+#### Página Incial (Seção de "Ofertas Imperdíveis" e seção de "Mercados")
+<img width="1098" height="623" alt="image" src="https://github.com/user-attachments/assets/5f123cf2-e60b-40ad-a919-387dde8aa114" />
 
-## Learn More
+#### Página de Produto (Lista de mercados onde o produto está disponível)
+<img width="1092" height="620" alt="image" src="https://github.com/user-attachments/assets/15a38bd7-596a-4111-aff0-ff046c8c2066" />
 
-To learn more about Next.js, take a look at the following resources:
+#### Página de Mercado (Lista de produtos disponíveis no mercado)
+<img width="1091" height="620" alt="image" src="https://github.com/user-attachments/assets/0b4da784-1753-496b-b046-6f9f727b0bd7" />
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Seção Lateral (Lista de produtos adicionados pelo usuário)
+<img width="1091" height="618" alt="image" src="https://github.com/user-attachments/assets/76560e5b-ab87-4fd0-834a-efe0c51db010" />
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Mobile
 
-## Deploy on Vercel
+#### Página Incial
+<img width="268" height="567" alt="image" src="https://github.com/user-attachments/assets/65e3a2eb-69c1-4f31-b208-881a134a21ab" />
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Página de Produto
+<img width="292" height="624" alt="image" src="https://github.com/user-attachments/assets/7bde1bb1-c5db-4f8b-8b2f-51d632e11cf1" />
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Página de Mercado
+<img width="289" height="624" alt="image" src="https://github.com/user-attachments/assets/11f9b883-72c1-4ad5-ad60-19eb93b4321e" />
+
+#### Modal (Posição da lista modificada para versão mobile)
+<img width="294" height="625" alt="image" src="https://github.com/user-attachments/assets/9ba285e7-0fb7-42fc-af24-a66e4952db5b" />
+
+## Vantagem da migração para ReactJS
+As vantagens da utilização de componentes ReactJS incluem a facilidade de troca de rotas para mudança de páginas, principalmente com relação a necessidade de fazer a troca de dados na mesma tela, além da facilidade de organização e manipulação dos dados.
