@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
-import Header from "./componentes/headers/Header.js"
-import SecaoLateral from "./components/SecaoLateral.js";
+import Header from "./components/headers/Header.jsx"
+import SecaoLateral from "./components/secaoLateral/SecaoLateral.jsx";
 import { useState } from 'react';
 
 export default function Home() {
@@ -133,8 +133,8 @@ export default function Home() {
         <section className="produtos">
             {gerarCardsProdutos("Todos", produtosFiltrados)} 
         </section>
-        <article class="titulo">Mercados</article>
-        <section class="mercados">
+        <article className="titulo">Mercados</article>
+        <section className="mercados">
             {gerarCardsMercados()}
         </section>
       </main>
@@ -203,7 +203,7 @@ export default function Home() {
 
   function gerarCardsMercados() {
     return mercados.map(mercado => (
-          <article className="mercado">
+          <article className="mercado" key={mercado.endereco}>
             <img src={mercado.imagem}/>
             <p> {mercado.nome} </p>
             <p> {mercado.endereco} </p>
