@@ -345,3 +345,60 @@ function gerarCardsProdutos(categoriaFiltro = "Todos", listaBase = null) {
     `).join('');
 };
 ~~~
+Adição da barra lateral da Lista e alterações no css para sua estilização:
+
+SecaoLateral.jsx
+~~~js
+export default function SecaoLateral() {
+   
+    const [aberta, setAberta] = useState(false);
+    const [minhaLista, setMinhaLista] = useState([]);
+    const alternarLista = () => {
+        setAberta(!aberta);
+    };
+    const alterarQuantidade = (indice, valor) => {
+        const novaLista = [...minhaLista];
+    
+        if (!novaLista[indice].quantidade) novaLista[indice].quantidade = 1;
+        
+        novaLista[indice].quantidade += valor;
+
+        if (novaLista[indice].quantidade < 1) {
+            novaLista.splice(indice, 1);
+        }
+        setMinhaLista(novaLista);
+    };
+    const removerDaLista = (indice) => {
+         const novaLista = [...minhaLista];
+         novaLista.splice(indice, 1);
+         setMinhaLista(novaLista);
+    }
+
+    // Calcula o valor total usando reduce
+    const somaTotal = minhaLista.reduce((total, produto) => {
+        const quantidade = produto.quantidade || 1;
+        return total + (produto.preco * quantidade);
+    }, 0);
+
+
+    return (
+        <aside className={`${styles.secaoLateral} ${aberta ? styles.aberto : ''}`}>
+            <button onClick={alternarLista} className={styles.toggleLista}>
+                <i className="fa-solid fa-chevron-left"></i> Lista
+            </button>
+
+            <section className={styles.lista}>
+                <ul className={styles.listaItens}>
+                </ul>
+
+                <footer className={styles.rodapeLista}>
+                    <p className={styles.precoTotal}>
+                        Total: R$ {somaTotal.toFixed(2).replace('.', ',')}
+                    </p>
+                </footer>
+            </section>
+
+        </aside>
+    );
+}
+~~~
