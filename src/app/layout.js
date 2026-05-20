@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SecaoLateral from "./components/secaoLateral/SecaoLateral";
 import Header from "./components/headers/Header";
+import { ListaProvider } from "./context/ListaContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,9 +23,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
-        <Header/>
-        {children}
-        <SecaoLateral/>
+        <ListaProvider>
+          <Header/>
+          {children}
+          <SecaoLateral/>
+        </ListaProvider>
       </body>
     </html>
   );

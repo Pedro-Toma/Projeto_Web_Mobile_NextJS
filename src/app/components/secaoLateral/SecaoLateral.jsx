@@ -1,37 +1,18 @@
 "use client"
+import Image from 'next/image';
 import { useState } from 'react';
 import './secaoLateral.css';
+import { useLista } from '../../context/ListaContext';
 
 const SecaoLateral = () => {
 
     const [estaAberto, setEstaAberto] = useState(false);
 
-    const [minhaLista, setMinhaLista] = useState([]);
+    const { minhaLista, alterarQuantidade, calcularTotal } = useLista();
 
     const toggleLista = () => {
         setEstaAberto(!estaAberto);
     };
-
-    const calcularTotal = () => {
-        return minhaLista.reduce((acc, produto) => acc + produto.preco * produto.quantidade, 0);
-    }
-
-    const alterarQuantidade = (indice, valor) => {
-
-        const listaAlterada = minhaLista.reduce((acc, produto, i) => {
-            if (i === indice) {
-                const novaQtd = produto.quantidade + valor;
-                if (novaQtd > 0) {
-                    acc.push({...ClipboardItem, quantidade: novaQtd});
-                }
-            } else {
-                acc.push(produto)
-            }
-            return acc;
-        }, []);
-
-        setMinhaLista(listaAlterada);
-    }
 
     return (
         <aside className={`secao-lateral ${estaAberto ? 'aberto' : ''}`}>
@@ -46,15 +27,15 @@ const SecaoLateral = () => {
                     ) : (
                         minhaLista.map((produto, indice) => (
                             <li key={indice} className="produto-lista">
-                                <Image src="${produto.imagem}"/>
+                                <Image src={produto.imagem} alt={produto.nome} width={100} height={100}/>
                                 <article className="produto-info-lista">
-                                    <p> ${produto.nome} </p>
-                                    <p className-> R$ ${(produto.preco * produto.quantidade).toFixed(2).replace('.', ',')} </p>
+                                    <p> {produto.nome} </p>
+                                    <p> R$ {(produto.preco * produto.quantidade).toFixed(2).replace('.', ',')} </p>
                                 </article>
                                 <section className="controle-quantidade">
-                                    <button onClick={alterarQuantidade(indice, 1)}>&plus;</button>
+                                    <button onClick={() => alterarQuantidade(produto.id, 1)}>+</button>
                                     <p> {produto.quantidade} </p>
-                                    <button onClick={alterarQuantidade(indice, -1)}>&minus;</button>
+                                    <button onClick={() => alterarQuantidade(produto.id, -1)}>-</button>
                                 </section>
                             </li>
                         ))

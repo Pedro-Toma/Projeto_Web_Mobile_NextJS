@@ -113,3 +113,8 @@ li.filtro-ativo {
     overflow-x: auto;
     max-width: calc(100vw - 55px);
 }
+
+.link-mercado {
+    color: black;
+    text-decoration: none;
+}

@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import styles from './cardProduto.module.css';
+import { useLista } from '../../context/ListaContext';
 
 const CardProduto = ({id, nome, preco, imagem}) => {
+
+    const { adicionarProduto } = useLista();
 
     return (
         <article className={styles.produto}>
@@ -15,7 +18,9 @@ const CardProduto = ({id, nome, preco, imagem}) => {
             <button className={styles['adicionar-home']} 
                 data-nome={nome}
                 data-preco={preco} 
-                data-imagem="${imagem}">+
+                data-imagem="${imagem}"
+                onClick={() => adicionarProduto({ id, nome, preco, imagem })}>
+                    +        
             </button>
         </article>
     );

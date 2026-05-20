@@ -146,8 +146,6 @@
 }
 
 .produto-lista img {
-    height: 100px;
-    width: 100px;
     border-radius: 16px;
     background-color: white;
     object-fit: contain;
@@ -182,6 +180,7 @@
 }
 
 .controle-quantidade button{
+    width: 30px;
     font-size: 20px;
     border: none;
     border-radius: 4px;

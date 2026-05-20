@@ -65,7 +65,7 @@ export default function Home() {
                 <p>Nenhum mercado encontrado.</p>
             ) : ( 
                 mercados.map(mercado => (
-								<Link href={`/mercado/${mercado.nome}`} key={mercado.endereco}>
+								<Link href={`/mercado/${mercado.nome}`} key={mercado.endereco} className={styles['link-mercado']}>
 									<CardMercado nome={mercado.nome} endereco={mercado.endereco} imagem={mercado.imagem}/>
 								</Link>
 							))
