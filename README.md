@@ -402,3 +402,31 @@ export default function SecaoLateral() {
     );
 }
 ~~~
+
+API de produtos 
+~~~js
+import { produtos } from "@/data/produtos.js";
+
+export async function GET() {
+  return Response.json(produtos);
+}
+~~~
+
+Chamando API de produtos na página inicial
+~~~js
+async function carregarProdutos() {
+    try {
+      const res = await fetch("/api/produtos");
+      const data = await res.json();
+      setProdutos(data);
+    } catch (erro) {
+      console.error("Erro ao buscar produtos:", erro);
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  useEffect(() => {
+    carregarProdutos();
+  }, []);
+~~~
