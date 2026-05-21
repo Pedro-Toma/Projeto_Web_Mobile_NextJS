@@ -1,23 +1,43 @@
 "use client";
 
 import { mercados } from "../../../data/mercados";
-import { produtos } from "../../../data/produtos";
 import { categorias } from "../../../data/categorias";
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './page.module.css';
 import CardProduto from "../../components/cardProduto/CardProduto";
 
 export default function PaginaMercado() {
-
   const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
+  
+  const [produtos, setProdutos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+
   const params = useParams();
   const nomeMercado = decodeURIComponent(params.nome);
+
+  useEffect(() => {
+    async function carregarProdutos() {
+      try {
+        const resposta = await fetch('/api/produtos');
+        const dados = await resposta.json();
+        setProdutos(dados);
+      } catch (erro) {
+        console.error("Erro ao buscar produtos:", erro);
+      } finally {
+        setCarregando(false);
+      }
+    }
+
+    carregarProdutos();
+  }, []);
 
   const mercado = mercados.find(
     m => m.nome.toLowerCase() === nomeMercado.toLowerCase()
   );
+
+  if (carregando) return <p>Carregando produtos...</p>;
 
   if (!mercado) return <p>Mercado não encontrado</p>;
 
@@ -35,10 +55,6 @@ export default function PaginaMercado() {
       };
     })
     .filter(Boolean);
-
-  const produtosFiltrados = categoriaAtiva === "Todos" 
-    ? produtosNesteMercado 
-    : produtosNesteMercado.filter(p => p.categoria === categoriaAtiva);
 
   return (
     <main className="conteudo">
@@ -64,10 +80,10 @@ export default function PaginaMercado() {
               Produtos Mais Populares
             </article>
             <section className={styles['categorias-desktop']}>
-						  <ul id="categorias-filtros">
+              <ul id="categorias-filtros">
                 { categorias.map(categoria => (
-									<li key={categoria} onClick={() => setCategoriaAtiva(categoria)} className={categoriaAtiva == categoria ? styles['filtro-ativo'] : ""}> {categoria} </li>
-								))}
+                  <li key={categoria} onClick={() => setCategoriaAtiva(categoria)} className={categoriaAtiva == categoria ? styles['filtro-ativo'] : ""}> {categoria} </li>
+                ))}
               </ul>
             </section>
             <section className={styles['categorias-mobile']}>
@@ -79,10 +95,10 @@ export default function PaginaMercado() {
           </section>
             <section className={styles.produtos}>
 
-              {produtosFiltrados.length === 0 ? (
-                <p>Nenhum produto encontrado nessa categoria.</p>
+              {produtosNesteMercado.length === 0 ? (
+                <p>Nenhum produto encontrado neste mercado</p>
               ) : (
-                produtosFiltrados.map(produto => (
+                produtosNesteMercado.map(produto => (
                   <CardProduto id={produto.id} nome={produto.nome} preco={produto.preco} imagem={produto.imagem} key={produto.id}/>
                 ))
               )}
