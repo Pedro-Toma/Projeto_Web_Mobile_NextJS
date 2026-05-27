@@ -1,33 +1,41 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { mercados } from "../data/mercados";
-import { categorias } from "../data/categorias";
 import Link from 'next/link';
+import styles from './page.module.css';
 import CardProduto from "./components/cardProduto/CardProduto";
 import CardMercado from "./components/cardMercado/CardMercado";
-import styles from './page.module.css';
 
 export default function Home() {
   const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
   
   const [produtos, setProdutos] = useState([]);
+  const [mercados, setMercados] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [carregando, setCarregando] = useState(true);
 
-  async function carregarProdutos() {
+  async function carregarDados() {
     try {
-      const res = await fetch("api/produtos");
-      const data = await res.json();
-      setProdutos(data);
+      const resProdutos = await fetch("/api/produtos");
+      const dataProdutos = await resProdutos.json();
+      setProdutos(dataProdutos);
+
+      const resMercados = await fetch("/api/mercados");
+      const dataMercados = await resMercados.json();
+      setMercados(dataMercados);
+
+      const resCategorias = await fetch("/api/categorias");
+      const dataCategorias = await resCategorias.json();
+      setCategorias(dataCategorias);
     } catch (erro) {
-      console.error("Erro ao buscar produtos:", erro);
+      console.error("Erro ao carregar os dados do API:", erro);
     } finally {
       setCarregando(false);
     }
   }
 
   useEffect(() => {
-    carregarProdutos();
+    carregarDados();
   }, []);
 
   if (carregando) return <p>Carregando página inicial...</p>;
@@ -86,7 +94,7 @@ export default function Home() {
                 <p>Nenhum mercado encontrado.</p>
             ) : ( 
                 mercados.map(mercado => (
-                <Link href={`/mercado/${mercado.nome}`} key={mercado.endereco} className={styles['link-mercado']}>
+                <Link href={`/mercado/${mercado.id}`} key={mercado.endereco} className={styles['link-mercado']}>
                   <CardMercado nome={mercado.nome} endereco={mercado.endereco} imagem={mercado.imagem}/>
                 </Link>
               ))

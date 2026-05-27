@@ -1,46 +1,44 @@
 "use client";
 
-// 1. Importamos o useEffect e useState, e removemos o import do arquivo estático
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import styles from './page.module.css';
+import { useLista } from '../../context/ListaContext';
 
 export default function Produto() {
   const params = useParams();
   const idProduto = params.id;
 
-  // 2. Criamos os estados para o produto e para o carregamento
+  const { adicionarProduto } = useLista();
+
   const [produto, setProduto] = useState(null);
   const [carregando, setCarregando] = useState(true);
 
-  // 3. Buscamos o produto na API usando o ID da URL
-  useEffect(() => {
-    if (!idProduto) return;
+  if (!idProduto) return;
 
-    async function carregarProduto() {
-      try {
-        // Faz a requisição exatamente na rota por ID que você criou ([id]/route.js)
-        const res = await fetch(`/api/produtos/${idProduto}`);
-        
-        if (res.ok) {
-          const data = await res.json();
-          setProduto(data);
-        } else {
-          setProduto(null); // Caso retorne 404
-        }
-      } catch (erro) {
-        console.error("Erro ao buscar o produto:", erro);
+  async function carregarProduto() {
+    try {
+      const res = await fetch(`/api/produtos/${idProduto}`);
+      
+      if (res.ok) {
+        const data = await res.json();
+        setProduto(data);
+      } else {
         setProduto(null);
-      } finally {
-        setCarregando(false);
       }
+    } catch (erro) {
+      console.error("Erro ao buscar o produto:", erro);
+      setProduto(null);
+    } finally {
+      setCarregando(false);
     }
+  }
 
+  useEffect(() => {
     carregarProduto();
   }, [idProduto]);
 
-  // 4. Enquanto estiver buscando os dados, mostra uma mensagem de loading
   if (carregando) {
     return (
       <main className="conteudo">
@@ -52,8 +50,6 @@ export default function Produto() {
   return (
     <main className="conteudo">
       <section className={styles['pagina-detalhes']}>
-        
-        {/* 5. Se o produto não for encontrado, exibe a interface de erro amigável */}
         {!produto ? (
           <>
             <button className={styles.voltar}>
@@ -62,7 +58,6 @@ export default function Produto() {
             <p> Produto Não Encontrado </p>
           </>
         ) : (
-          /* 6. Se o produto existir, exibe os dados da API com segurança */
           <>
             <button className={styles.voltar}>
               <Link href={`/`} className={styles['link-home']}> Home </Link> &gt; {produto.nome}
@@ -91,7 +86,14 @@ export default function Produto() {
                       <button className={styles['adicionar-produto']}
                         data-nome={produto.nome} 
                         data-preco={oferta.preco} 
-                        data-imagem={produto.imagem}>+
+                        data-imagem={produto.imagem}
+                        onClick={() => adicionarProduto({
+                          id: produto.id, 
+                          nome: produto.nome, 
+                          preco: oferta.preco, 
+                          imagem: produto.imagem 
+                        })}>
+                        +
                       </button>
                     </article>
                   ))
