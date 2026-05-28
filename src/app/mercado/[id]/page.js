@@ -88,7 +88,7 @@ export default function PaginaMercado() {
               Ofertas Imperdíveis
             </article>
             <section className={styles['categorias-desktop']}>
-              <ul id="categorias-filtros">
+              <ul className={styles['categorias-filtros']}>
                 { categorias.map(categoria => (
                   <li key={categoria} onClick={() => setCategoriaAtiva(categoria)} className={categoriaAtiva == categoria ? styles['filtro-ativo'] : ""}> {categoria} </li>
                 ))}

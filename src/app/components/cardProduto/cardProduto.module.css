@@ -1,17 +1,19 @@
 .produto{
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     align-items: left;
-    background-color: color-mix(in srgb, var(--cor-principal), transparent 65%);
+    background-color: color-mix(in srgb, var(--cor-principal), white 65%);
     min-height: 220px;
     min-width: 140px;
     max-width: 120px;
     border-radius: 15px;
     margin-right: 30px;
+    margin-bottom: 10px;
     padding-bottom: 5px;
     cursor: pointer;
-    border: 1px solid color-mix(in srgb, var(--cor-principal), transparent 65%);
-    box-shadow: 0px 0px 10px var(--cor-principal);
+    border: 1px solid color-mix(in srgb, var(--cor-principal), white 65%);
+    box-shadow: 0px 0px 2px white;
     position: relative;
 }
 
