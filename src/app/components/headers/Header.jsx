@@ -25,7 +25,9 @@ const Header = () => {
 
     return (
         <header className={styles.header}>
-            <h3 className={styles.titulo}> Lista Barata </h3>
+            <Link href={'/'}>
+                <h3 className={styles.titulo}> Lista Barata </h3>
+            </Link>
             <Link href={'/sobreNos'}>
                 <h3 className={styles.titulo}> Sobre nós </h3>
             </Link>
