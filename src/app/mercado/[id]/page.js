@@ -85,7 +85,7 @@ export default function PaginaMercado() {
           <section className={styles['produtos-mercado']}>
 
             <article className={styles.titulo}>
-              Produtos Mais Populares
+              Ofertas Imperdíveis
             </article>
             <section className={styles['categorias-desktop']}>
               <ul id="categorias-filtros">

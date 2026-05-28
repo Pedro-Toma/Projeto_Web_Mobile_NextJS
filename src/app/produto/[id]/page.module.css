@@ -83,9 +83,9 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    border: 2px solid black;
     border-radius: 16px;
     background-color: white;
+    box-shadow: 0px 0px 16px var(--cor-principal);
     flex: 1 2 250px;
     width: calc(100% - 320px);
     max-width: 250px;
@@ -95,8 +95,8 @@
 }
 
 .imagem-produto img {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 250px;
+    max-height: 250px;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -134,9 +134,9 @@
     border-radius: 16px;
     display: flex;
     align-items: center;
-    background-color: color-mix(in srgb, var(--cor-principal), transparent 20%);
-    color: white;
-    box-shadow: 3px 4px 2px var(--cor-principal);
+    background-color: color-mix(in srgb, var(--cor-principal), transparent 50%);
+    color: black;
+    box-shadow: 3px 4px 2px color-mix(in srgb, var(--cor-principal), transparent 30%);;
     position: relative;
 }
 
@@ -144,6 +144,7 @@
     .lista-mercados {
         max-height: none;
         width: 100%;
+        margin-top: 20px;
         margin-right: 5px;
         max-height: none;
         overflow-y: visible;
@@ -202,6 +203,8 @@
 /* Botão de adicionar a lista dentro a página do produto */
 
 .adicionar-produto {
+    font-size: 16px;
+    font-weight: 600;
     position: absolute;
     bottom: 10px;
     right: 10px;

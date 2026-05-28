@@ -1,0 +1,54 @@
+.header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 55px;
+    background-color: var(--cor-header-lateral);
+    padding-left: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.titulo{
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    color: white;
+}
+
+.pesquisa-desktop {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+@media (max-width: 600px) {
+    .pesquisa-desktop {
+        display: none;
+    }
+}
+
+.busca{
+    font-size: 16px;
+    background-color: var(--cor-header-lateral);
+    border: none;
+    color: white;
+    padding: 6px;
+    margin-right: 20px;
+    float: right;
+}
+
+.busca::placeholder {
+    font-size: 16px;
+    color: white;
+}
+
+.search-icon {
+    margin-right: 10px;
+    height: 20px;
+    color: white;
+}

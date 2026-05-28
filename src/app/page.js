@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
 import CardProduto from "./components/cardProduto/CardProduto";
 import CardMercado from "./components/cardMercado/CardMercado";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export default function Home() {
   const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
@@ -13,6 +16,22 @@ export default function Home() {
   const [mercados, setMercados] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [carregando, setCarregando] = useState(true);
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  
+  const termoBusca = searchParams.get('busca') || ''; 
+  
+  const [buscaMobile, setBuscaMobile] = useState(termoBusca);
+
+  const dispararBuscaMobile = (e) => {
+    e.preventDefault();
+    if (buscaMobile.trim() === '') {
+      router.push('/');
+    } else {
+      router.push(`/?busca=${encodeURIComponent(buscaMobile.trim().toLowerCase())}`);
+    }
+  };
 
   async function carregarDados() {
     try {
@@ -38,6 +57,10 @@ export default function Home() {
     carregarDados();
   }, []);
 
+  useEffect(() => {
+    setBuscaMobile(termoBusca);
+  }, [termoBusca]);
+
   if (carregando) return <p>Carregando página inicial...</p>;
 
   const produtosComPreco = produtos.map((p) => {
@@ -53,18 +76,22 @@ export default function Home() {
     };
   });
 
-  const produtosFiltrados = categoriaAtiva === "Todos" 
-    ? produtosComPreco 
-    : produtosComPreco.filter(p => p.categoria === categoriaAtiva);
+  const produtosFiltrados = produtosComPreco.filter(p => {
+      const passaCategoria = categoriaAtiva === "Todos" || p.categoria === categoriaAtiva;
+
+      const passaTermo = !termoBusca || p.nome.toLowerCase().includes(termoBusca.toLowerCase());
+
+      return passaCategoria && passaTermo;
+    });
 
   return (
     <>
-      <form id="Pesquisa-Mobile" className="pesquisa-mobile">
-          <i className="fa fa-search icon"></i>
-          <input type="text" placeholder="Pesquisar..."/>
+      <form id="Pesquisa-Mobile" className={styles['pesquisa-mobile']} onSubmit={dispararBuscaMobile}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} className={styles['search-icon-mobile']}/>
+          <input type="text" placeholder="Pesquisar..." className={styles['busca-mobile']} onChange={(e) => setBuscaMobile(e.target.value)}/>
       </form>
       <main className="conteudo">
-        <article className={styles.titulo}>Produtos Mais Populares</article>
+        <article className={styles.titulo}>Ofertas Imperdíveis</article>
         <section className={styles['categorias-desktop']}>
             <ul id="categorias-filtros">
                 { categorias.map(categoria => (

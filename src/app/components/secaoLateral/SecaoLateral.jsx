@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import { useState } from 'react';
 import Image from 'next/image';
-import './secaoLateral.css';
+import styles from './secaoLateral.module.css';
 import { useLista } from '../../context/ListaContext';
 
 const SecaoLateral = () => {
@@ -16,24 +16,24 @@ const SecaoLateral = () => {
     };
 
     return (
-        <aside className={`secao-lateral ${estaAberto ? 'aberto' : ''}`}>
-            <button id="toggle-lista" onClick={toggleLista}> 
+        <aside className={`${styles['secao-lateral']} ${estaAberto ? styles.aberto : ''}`}>
+            <button className={styles['toggle-lista']} onClick={toggleLista}> 
                 <i className="fa-solid fa-chevron-left"></i> 
                 Lista
             </button>
-            <section className="lista">
-                <ul id="lista-itens">
+            <section className={styles.lista}>
+                <ul className={styles['lista-itens']}>
                     {minhaLista.length === 0 ? (
-                        <p className="vazio">Adicione Itens à Lista...</p>
+                        <p className={styles.vazio}>Adicione Itens à Lista...</p>
                     ) : (
                         minhaLista.map((produto, indice) => (
-                            <li key={indice} className="produto-lista">
+                            <li key={indice} className={styles['produto-lista']}>
                                 <Image src={produto.imagem} alt={produto.nome} width={100} height={100}/>
-                                <article className="produto-info-lista">
+                                <article className={styles['produto-info-lista']}>
                                     <p> {produto.nome} </p>
                                     <p> R$ {(produto.preco * produto.quantidade).toFixed(2).replace('.', ',')} </p>
                                 </article>
-                                <section className="controle-quantidade">
+                                <section className={styles['controle-quantidade']}>
                                     <button onClick={() => alterarQuantidade(produto.id, 1)}>+</button>
                                     <p> {produto.quantidade} </p>
                                     <button onClick={() => alterarQuantidade(produto.id, -1)}>-</button>
@@ -42,8 +42,8 @@ const SecaoLateral = () => {
                         ))
                     )}
                 </ul>
-                <footer className="rodape-lista">
-                    <p id="preco-total">
+                <footer className={styles['rodape-lista']}>
+                    <p className={styles['preco-total']}>
                         Total: R$ {calcularTotal().toFixed(2).replace('.', ',')}
                     </p>
                 </footer>

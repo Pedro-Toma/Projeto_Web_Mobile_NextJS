@@ -70,64 +70,6 @@ body {
     }
 }
 
-/* Header fixo na parte superior da página */
-
-header{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 55px;
-    background-color: var(--cor-header-lateral);
-    padding-left: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-}
-
-h3{
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    margin-right: 20px;
-    color: white;
-}
-
-i{
-    color: white;
-    margin-right: 5px;
-}
-
-input{
-    background-color: var(--cor-header-lateral);
-    border: none;
-    color: white;
-    padding: 6px;
-    margin-right: 20px;
-    float: right;
-}
-
-input::placeholder {
-    color: white;
-}
-
-.pesquisa-desktop {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-}
-
-.pesquisa-mobile {
-    display: none;
-}
-
-@media (max-width: 600px) {
-    .pesquisa-desktop {
-        display: none;
-    }
-}
-
 /* Conteúdo principal (main) */
 
 .conteudo {
