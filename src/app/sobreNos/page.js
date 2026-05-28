@@ -2,10 +2,10 @@
 
 export default function sobreNos(){
     return (
-        <>
-        <title>
+        <main>
+        <h1>
             Sobre Nós
-        </title>
+        </h1>
 
         <p>
             Caso precise de alguma ajuda, mande mensagem através dos contatos abaixo:
@@ -18,6 +18,6 @@ export default function sobreNos(){
         <p>
             Telefone: (11)92568-6536
         </p>
-        </>
+        </main>
     );
 }
