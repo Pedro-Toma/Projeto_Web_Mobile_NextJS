@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import styles from './header.module.css';
@@ -25,7 +26,9 @@ const Header = () => {
     return (
         <header className={styles.header}>
             <h3 className={styles.titulo}> Lista Barata </h3>
-            <h3 className={styles.titulo}> São Paulo </h3>
+            <Link href={'/sobreNos'}>
+                <h3 className={styles.titulo}> Sobre nós </h3>
+            </Link>
             {pathname === '/' && (
                 <form id="Pesquisa" className={styles['pesquisa-desktop']} onSubmit={dispararBusca}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} className={styles['search-icon']}/>

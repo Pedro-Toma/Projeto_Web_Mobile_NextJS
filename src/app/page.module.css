@@ -91,6 +91,11 @@ li.filtro-ativo {
 }
 
 @media (max-width: 600px) {
+
+    .categorias-desktop {
+        display: none;
+    }
+
     .titulo {
         font-size: 18pt;
     }
