@@ -18,6 +18,6 @@ export default function sobreNos(){
         <p className={styles.texto}>
             Telefone: (11)92568-6536
         </p>
-        </>
+        </main>
     );
 }
