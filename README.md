@@ -52,9 +52,9 @@ As vantagens da utilização de componentes ReactJS incluem a facilidade de troc
 As configuração de CSS foram colocados no arquivo global.css para facilitar o início da migração.
 
 ### Estrutura das pastas e arquivos
-<img width="295" height="440" alt="image" src="https://github.com/user-attachments/assets/76560dd6-80ba-49bc-b641-ff595b01d839" />  
+<img width="212" height="636" alt="image" src="https://github.com/user-attachments/assets/ebbd24dc-fd87-4e0e-af89-24eb4a0d0bc6" />
 
-Foi criado a pasta de componentes para armazenar o header e seção lateral que estão presentes em todas as abas, inseridos no arquivo layout.js.
+Foi criado a pasta de componentes para armazenar o header e seção lateral que estão presentes em todas as abas, inseridos no arquivo layout.js. Além de armazenar os cards de produto e mercado e as seções da página principal.
 
 ~~~js
 export default function RootLayout({ children }) {
@@ -73,7 +73,7 @@ export default function RootLayout({ children }) {
 A página home está na raiz do projeto "page.js" e as páginas de produto e de mercado estão criadas como novas abas que recebem como parâmetro as informações necessárias para carregar o conteúdo desejado (mercado -> nome, produto -> id)
 
 ### Página Home
-<img width="1911" height="900" alt="image" src="https://github.com/user-attachments/assets/2225915b-f439-4a1d-a32e-47f9b9db66f8" />
+<img width="1909" height="804" alt="image" src="https://github.com/user-attachments/assets/fba6cd7f-854f-4487-8941-91fb23192fa5" />
 
 ~~~js
 export default function Home()
@@ -91,36 +91,38 @@ Alterar o filtro resulta na renderização das estruturas necessárias da págin
 const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
 ~~~
 
-Função de gerarCategorias altera a variável do useState (categoriaAtiva) através de setCategoriaAtiva
+Busca dados do db através da API e armazena os dados em listas.
 ~~~js
-// Gerar categorias dos produtos
-  function gerarCategorias() {
-      return <>
-          <section className="categorias-desktop">
-              <ul id="categorias-filtros">
-                  <li onClick={() => setCategoriaAtiva("Todos")} className={categoriaAtiva === "Todos" ? "filtro-ativo" : ""}> Todos </li>
-                  <li onClick={() => setCategoriaAtiva("Higiene e Perfumaria")} className={categoriaAtiva === "Higiene e Perfumaria" ? "filtro-ativo" : ""}> Higiene e Perfumaria </li>
-                  <li onClick={() => setCategoriaAtiva("Salgadinhos e Snacks")} className={categoriaAtiva === "Salgadinhos e Snacks" ? "filtro-ativo" : ""}> Salgadinhos e Snacks </li>
-                  <li onClick={() => setCategoriaAtiva("Padaria e Matinais")} className={categoriaAtiva === "Padaria e Matinais" ? "filtro-ativo" : ""}> Padaria e Matinais </li>
-                  <li onClick={() => setCategoriaAtiva("Bebidas")} className={categoriaAtiva === "Bebidas" ? "filtro-ativo" : ""}> Bebidas </li>
-                  <li onClick={() => setCategoriaAtiva("Energéticos e Isotônicos")} className={categoriaAtiva === "Energéticos e Isotônicos" ? "filtro-ativo" : ""}> Energéticos e Isotônicos </li>
-                  <li onClick={() => setCategoriaAtiva("Doces")} className={categoriaAtiva === "Doces" ? "filtro-ativo" : ""}> Doces </li>
-              </ul>
-          </section>
-          <section className="categorias-mobile">
-              <select id="filtros-mobile" value={categoriaAtiva} onChange={(e) => setCategoriaAtiva(e.target.value)}>
-                  <option value="Todos">Todos</option>
-                  <option value="Higiene e Perfumaria">Higiene e Perfumaria</option>
-                  <option value="Salgadinhos e Snacks">Salgadinhos e Snacks</option>
-                  <option value="Padaria e Matinais">Padaria e Matinais</option>
-                  <option value="Bebidas">Bebidas</option>
-                  <option value="Energéticos e Isotônicos">Energéticos e Isotônicos</option>
-                  <option value="Doces">Doces</option>
-              </select>
-          </section>
-      </>
-    ;
+  const [produtos, setProdutos] = useState([]);
+  const [mercados, setMercados] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+
+  const termoBusca = searchParams.get('busca') || '';
+  
+  async function carregarDados() {
+    try {
+      const resProdutos = await fetch("/api/produtos");
+      const dataProdutos = await resProdutos.json();
+      setProdutos(dataProdutos);
+
+      const resMercados = await fetch("/api/mercados");
+      const dataMercados = await resMercados.json();
+      setMercados(dataMercados);
+
+      const resCategorias = await fetch("/api/categorias");
+      const dataCategorias = await resCategorias.json();
+      setCategorias(dataCategorias);
+    } catch (erro) {
+      console.error("Erro ao carregar os dados do API:", erro);
+    } finally {
+      setCarregando(false);
+    }
   }
+
+  useEffect(() => {
+    carregarDados();
+  }, []);
 ~~~
 
 As outras funções foram apenas migradas e ajustadas para nomeclatura correta, "className" e fechamento de tags como "img"
@@ -148,285 +150,561 @@ return (
   );
 ~~~
 
+Acha melhor preço para cada produto e filtra produtos com base na barra de pesquisa e na categoria ativa.
+~~~js
+  const produtosComPreco = produtos.map((p) => {
+    if (!p.ofertas || p.ofertas.length === 0) return { ...p, preco: 0 };
+
+    const melhorOferta = p.ofertas.reduce((menor, atual) => {
+      return atual.preco < menor.preco ? atual : menor;
+    }, p.ofertas[0]);
+    
+    return {
+      ...p,
+      preco: melhorOferta.preco
+    };
+  });
+
+  const produtosFiltrados = produtosComPreco.filter(p => {
+      const passaCategoria = categoriaAtiva === "Todos" || p.categoria === categoriaAtiva;
+
+      const passaTermo = !termoBusca || p.nome.toLowerCase().includes(termoBusca.toLowerCase());
+
+      return passaCategoria && passaTermo;
+    });
+~~~
+
+html de retorno da página principal com utilização de componentes.
+~~~js
+return (
+    <>
+      <PesquisaMobile termoBusca={termoBusca} />
+      <main className={styles.conteudo}>
+        <SecaoOfertas categorias={categorias} produtosFiltrados={produtosFiltrados} categoriaAtiva={categoriaAtiva} setCategoriaAtiva={setCategoriaAtiva}/>
+        <SecaoMercados mercados={mercados} />
+      </main>
+    </>
+  );
+~~~
+
 ### Página de Produto
-<img width="1912" height="902" alt="image" src="https://github.com/user-attachments/assets/ad24a448-4961-4dbe-9a2e-0788200d1d1e" />
+<img width="1909" height="812" alt="image" src="https://github.com/user-attachments/assets/a5efc9e5-9bc1-4433-953b-8c0e518d2e81" />
 
 ~~~js
 export default function Produto()
 ~~~
 
-Usar features do browser "use client" e importar Link, parâmetros via URL e dados de produtos e mercados
+Usar features do browser "use client" e importar Link, parâmetros via URL e contexto da lista do usuário.
 ~~~js
 "use client";
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { produtos } from "../../../data/produtos";
-import { mercados } from "../../../data/mercados";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import styles from './page.module.css';
+import { useLista } from '../../context/ListaContext';
 ~~~
 
-Verifica id da URL e procura por produto com mesmo id
+Verifica id da URL e procura por produto com mesmo id e utiliza contexto da lista para adicionar produtos.
 ~~~js
 const params = useParams();
 const idProduto = params.id;
 
-const produto = produtos.find(p => p.id === Number(idProduto));
-console.log(produto)
-if (!produto) {
-  alert("Produto Não Encontrado");
-  return;
-}
+const { adicionarProduto } = useLista();
+
+const [produto, setProduto] = useState(null);
+const [carregando, setCarregando] = useState(true);
+
+if (!idProduto) return;
 ~~~
 
 Retorno da página de produto
 ~~~js
-return(
-        <section className="pagina-detalhes">
-            <button className="voltar">
-                <Link href={`/`} className="link-home"> Home </Link> &gt; {produto.nome}
+  return (
+    <main className={styles.conteudo}>
+      <section className={styles['pagina-detalhes']}>
+        {!produto ? (
+          <>
+            <button className={styles.voltar}>
+              <Link href={`/`} className={styles['link-home']}> Home </Link> &gt; Produto não encontrado
             </button>
+            <p> Produto Não Encontrado </p>
+          </>
+        ) : (
+          <>
+            <button className={styles.voltar}>
+              <Link href={`/`} className={styles['link-home']}> Home </Link> &gt; {produto.nome}
+            </button>
+            
             <h1>{produto.nome}</h1>
-            <section className="pagina-produto">
-                <div className="imagem-produto">
-                    <img src={produto.imagem}/>
-                </div>
-                <section className="lista-mercados">
-                    {gerarMercadosDoProduto(produto.nome)}
-                </section>
+            
+            <section className={styles['pagina-produto']}>
+              <div className={styles['imagem-produto']}>
+                <img src={produto.imagem} alt={produto.nome} />
+              </div>
+              
+              <section className={styles['lista-mercados']}>
+                {(!produto.ofertas || produto.ofertas.length === 0) ? (
+                  <p>Nenhuma oferta encontrada.</p>
+                ) : (
+                  produto.ofertas.map(oferta => (
+                    <article className={styles['produto-mercado']} key={oferta.endereco}>
+                      <img src={oferta.mercado} alt={oferta.loja} />
+                      <div className={styles['produto-conteudo']}>
+                        <p> Endereço: {oferta.endereco} </p>
+                        <p className={styles['produto-preco']}> 
+                          R$ {oferta.preco.toFixed(2).replace('.', ',')}
+                        </p>
+                      </div>
+                      <button className={styles['adicionar-produto']} onClick={() => adicionarProduto({
+                          id: produto.id, 
+                          nome: produto.nome, 
+                          preco: oferta.preco, 
+                          imagem: produto.imagem 
+                        })}>
+                        +
+                      </button>
+                    </article>
+                  ))
+                )}
+              </section>
             </section>
-        </section>
-    );
+          </>
+        )}
+      </section>
+    </main>
+  );
 ~~~
 
 ### Página de Mercado
-<img width="1918" height="899" alt="image" src="https://github.com/user-attachments/assets/73791a60-e468-47d6-8e7c-91f56e492405" />
+<img width="1909" height="808" alt="image" src="https://github.com/user-attachments/assets/e781b52d-78ba-4362-898c-1733db033111" />
 
 ~~~js
 export default function PaginaMercado()
 ~~~
 
-Imports semelhantes a página de produto e "use client"
+Imports semelhantes a página de produto, "use client" e card de produto.
 ~~~js
 "use client";
-import { mercados } from "../../../data/mercados";
-import { produtos } from "../../../data/produtos";
+
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import styles from './page.module.css';
+import CardProduto from "../../components/cardProduto/CardProduto";
 ~~~
 
-Criar variável categoriaAtiva para recarregar partes necessárias da página se houver alteração e procura de mercado com mesmo nome recebido via URL
+Criar variável categoriaAtiva para recarregar partes necessárias da página se houver alteração e dados usados na lista de produtos e variável de mercado específico.
 ~~~js
   const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
+  const [produtos, setProdutos] = useState([]);
+  const [mercado, setMercado] = useState(null);
+  const [categorias, setCategorias] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+
   const params = useParams();
-  const nomeMercado = params.nome;
+  const idMercado = decodeURIComponent(params.id);
+~~~
 
-  const mercado = mercados.find(
-    m => m.nome.toLowerCase() === nomeMercado.toLowerCase()
-  );
+Acha produtos do mercado específico e filtra pela categoria ativa.
+~~~js
+const produtosNesteMercado = produtos
+    .map(produto => {
+      const oferta = produto.ofertas.find(
+        o => o.endereco === mercado.endereco
+      );
 
+      if (!oferta) return null;
+
+      return {
+        ...produto,
+        preco: oferta.preco
+      };
+    })
+    .filter(Boolean);
+  
+  const produtosFiltrados = categoriaAtiva === "Todos" 
+    ? produtosNesteMercado 
+    : produtosNesteMercado.filter(p => p.categoria === categoriaAtiva);
 ~~~
 
 Retorno da página de mercado
 ~~~js
-return (
-    <section className="pagina-detalhes">
+  return (
+    <main className={styles.conteudo}>
+      <section className={styles['pagina-detalhes']}>
 
-      <button className="voltar">
-        <Link href={`/`} className="link-home"> Home </Link> &gt; {mercado.nome}
-      </button>
+        <button className={styles.voltar}>
+          <Link href={`/`} className={styles['link-home']}> Home </Link> &gt; {mercado.nome}
+        </button>
 
-      <section className="pagina-mercado">
+        <section className={styles['pagina-mercado']}>
 
-        <section className="info-mercado">
-          <div className="imagem-mercado">
-            <img className="pagina-mercado-imagem" src={mercado.imagem} alt={mercado.nome}  />
-          </div>
-          <h1>{mercado.nome}</h1>
-          <p>{mercado.endereco}</p>
-        </section>        
+          <section className={styles['info-mercado']}>
+            <div className={styles['imagem-mercado']}>
+              <img className={styles['pagina-mercado-imagem']} src={mercado.imagem} alt={mercado.nome}  />
+            </div>
+            <h1>{mercado.nome}</h1>
+            <p>{mercado.endereco}</p>
+          </section>        
 
-        <section className="produtos-mercado">
+          <section className={styles['produtos-mercado']}>
 
-          <article className="titulo">
-            Produtos Mais Populares
-          </article>
+            <article className={styles.titulo}>
+              Ofertas Imperdíveis
+            </article>
+            <section className={styles['categorias-desktop']}>
+              <ul className={styles['categorias-filtros']}>
+                { categorias.map(categoria => (
+                  <li key={categoria} onClick={() => setCategoriaAtiva(categoria)} className={categoriaAtiva == categoria ? styles['filtro-ativo'] : ""}> {categoria} </li>
+                ))}
+              </ul>
+            </section>
+            <section className={styles['categorias-mobile']}>
+              <select id="filtros-mobile" value={categoriaAtiva} onChange={(e) => setCategoriaAtiva(e.target.value)}>
+                  { categorias.map(categoria => (
+                    <option key={categoria} value={categoria}>{categoria}</option>
+                  ))}
+              </select>
+          </section>
+            <section className={styles.produtos}>
 
-          {gerarCategorias?.()}
+              {produtosFiltrados.length === 0 ? (
+                <p>Nenhum produto encontrado neste mercado</p>
+              ) : (
+                produtosFiltrados.map(produto => (
+                  <CardProduto id={produto.id} nome={produto.nome} preco={produto.preco} imagem={produto.imagem} key={produto.id}/>
+                ))
+              )}
 
-          <section className="produtos">
-
-            {produtosNesteMercado.length === 0 ? (
-              <p>Nenhum produto encontrado neste mercado</p>
-            ) : (
-              produtosNesteMercado.map(produto => (
-                <article key={produto.id} className="produto">
-
-                  <img
-                    src={produto.imagem}
-                    alt={produto.nome}
-                  />
-
-                  <section className="info-produto">
-                    <p>{produto.nome}</p>
-                    <p className="preco">
-                      R$ {produto.precoLocal.toFixed(2).replace(".", ",")}
-                    </p>
-                  </section>
-
-                  <button className="adicionar-home">
-                    +
-                  </button>
-
-                </article>
-              ))
-            )}
+            </section>
 
           </section>
-
         </section>
       </section>
-    </section>
+    </main>
   );
 ~~~
 
-Divisão da aplicação em arquivos separados usando componentização (CardProduto e CardMercado) junto com a separação do CSS em arquivos diferentes utilizando "styles"
-
-<img width="373" height="188" alt="image" src="https://github.com/user-attachments/assets/b54e88c9-a958-463d-8cba-18a3a9024f54" />
+Divisão da aplicação em arquivos separados usando componentização (CardProduto, CardMercado, ...) junto com a separação do CSS em arquivos diferentes utilizando "styles".
+<img width="179" height="176" alt="image" src="https://github.com/user-attachments/assets/80118797-e929-4957-bd74-ab8ba0e7b247" />
 
 CardMercado.jsx
 ~~~js
-const gerarCardsMercados = (mercados) => {
-  return (
-    <>
-      {mercados.map((mercado) => (
-        <article
-          key={mercado.nome}
-          className="mercado"
-          onClick={() => renderizarPaginaMercado(mercado.nome)}
-        >
-          <img src={mercado.imagem} alt={mercado.nome} />
-          <p>{mercado.nome}</p>
-          <p>{mercado.endereco}</p>
+const CardMercado = ({nome, endereco, imagem}) => {
+    return (
+        <article className={styles.mercado}>
+          <img src={imagem} alt={nome} />
+          <p>{nome}</p>
+          <p>{endereco}</p>
         </article>
-      ))}
-    </>
-  );
-};
+    );
+}
 
-export default gerarCardsMercados;
+export default CardMercado;
 ~~~
 
 CardProduto.jsx 
 ~~~js
-function gerarCardsProdutos(categoriaFiltro = "Todos", listaBase = null) {
+const CardProduto = ({id, nome, preco, imagem}) => {
 
-    let listaParaFiltrar = (listaBase !== null) ? listaBase : produtos;
-    let listaFiltrada = listaParaFiltrar;
-
-    if (categoriaFiltro !== "Todos") {
-        listaFiltrada = listaParaFiltrar.filter(p => p.categoria === categoriaFiltro);
-    }
-
-    if (listaFiltrada.length === 0) return "<p>Nenhum produto encontrado nesta categoria.</p>";
-
-    return listaFiltrada.map(produto => `
-        <article class="produto">
-            <img src="${produto.imagem}" onclick="renderizarPaginaProduto(${produto.id})">
-            <section class="info-produto">
-                <p> ${produto.nome} </p>
-                <p class="preco"> R$ ${produto.preco.toFixed(2).replace('.', ',')} </p>
-            </section>
-            <button class="adicionar-home" 
-                data-nome="${produto.nome}" 
-                data-preco="${produto.preco}" 
-                data-imagem="${produto.imagem}">&plus;
-            </button>
-        </article>
-    `).join('');
-};
-~~~
-Adição da barra lateral da Lista e alterações no css para sua estilização:
-
-SecaoLateral.jsx
-~~~js
-export default function SecaoLateral() {
-   
-    const [aberta, setAberta] = useState(false);
-    const [minhaLista, setMinhaLista] = useState([]);
-    const alternarLista = () => {
-        setAberta(!aberta);
-    };
-    const alterarQuantidade = (indice, valor) => {
-        const novaLista = [...minhaLista];
-    
-        if (!novaLista[indice].quantidade) novaLista[indice].quantidade = 1;
-        
-        novaLista[indice].quantidade += valor;
-
-        if (novaLista[indice].quantidade < 1) {
-            novaLista.splice(indice, 1);
-        }
-        setMinhaLista(novaLista);
-    };
-    const removerDaLista = (indice) => {
-         const novaLista = [...minhaLista];
-         novaLista.splice(indice, 1);
-         setMinhaLista(novaLista);
-    }
-
-    // Calcula o valor total usando reduce
-    const somaTotal = minhaLista.reduce((total, produto) => {
-        const quantidade = produto.quantidade || 1;
-        return total + (produto.preco * quantidade);
-    }, 0);
-
+    const { adicionarProduto } = useLista();
 
     return (
-        <aside className={`${styles.secaoLateral} ${aberta ? styles.aberto : ''}`}>
-            <button onClick={alternarLista} className={styles.toggleLista}>
-                <i className="fa-solid fa-chevron-left"></i> Lista
+        <article className={styles.produto}>
+            <Link href={`/produto/${id}`}>
+                <img src={imagem}/>
+            </Link>
+            <section className={styles['info-produto']}>
+                <p> {nome} </p>
+                <p className={styles.preco}> R$ {preco.toFixed(2).replace('.', ',')} </p>
+            </section>
+            <button className={styles['adicionar-home']} 
+                data-nome={nome}
+                data-preco={preco} 
+                data-imagem={imagem}
+                onClick={() => adicionarProduto({ id, nome, preco, imagem })}>
+                    +        
             </button>
+        </article>
+    );
+}
 
+export default CardProduto;
+~~~
+
+Header.jsx
+~~~js
+const Header = () => {
+
+    const pathname = usePathname();
+    const router = useRouter();
+
+    const [termoBusca, setTermoBusca] = useState("");
+
+    const dispararBusca = (e) => {
+        e.preventDefault();
+        if (termoBusca.trim() === '') {
+            router.push('/');
+        } else {
+            router.push(`/?busca=${encodeURIComponent(termoBusca.trim().toLowerCase())}`);
+        }
+    };
+
+    return (
+        <header className={styles.header}>
+            <Link href={'/'} className={styles['link-logo']}>
+                <h3 className={styles.titulo}> Lista Barata </h3>
+            </Link>
+            <Link href={'/contatos'} className={styles['link-logo']}>
+                <h3 className={styles.titulo}> Contatos </h3>
+            </Link>
+            {pathname === '/' && (
+                <form id="Pesquisa" className={styles['pesquisa-desktop']} onSubmit={dispararBusca}>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className={styles['search-icon']}/>
+                    <input type="text" placeholder="Pesquisar..." className={styles['busca']} onChange={(e) => setTermoBusca(e.target.value)}/>
+                </form>
+            )}
+        </header>
+    );
+};
+
+export default Header;
+~~~
+
+PesquisaMobile.jsx
+~~~js
+const PesquisaMobile = ({ termoBusca }) => {
+
+    const [buscaMobile, setBuscaMobile] = useState(termoBusca);
+    const router = useRouter();
+    
+    const dispararBuscaMobile = (e) => {
+        e.preventDefault();
+        if (buscaMobile.trim() === '') {
+            router.push('/');
+        } else {
+            router.push(`/?busca=${encodeURIComponent(buscaMobile.trim().toLowerCase())}`);
+        }
+    };
+
+    useEffect(() => {
+        setBuscaMobile(termoBusca);
+    }, [termoBusca]);
+
+    return (
+        <form id="Pesquisa-Mobile" className={styles['pesquisa-mobile']} onSubmit={dispararBuscaMobile}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} className={styles['search-icon-mobile']}/>
+            <input type="text" placeholder="Pesquisar..." className={styles['busca-mobile']} onChange={(e) => setBuscaMobile(e.target.value)}/>
+        </form>
+    );
+};
+
+export default PesquisaMobile;
+~~~
+
+~~~js
+
+~~~
+
+Adição da barra lateral da Lista e alterações no css para sua estilização:
+SecaoLateral.jsx
+~~~js
+const SecaoLateral = () => {
+
+    const [estaAberto, setEstaAberto] = useState(false);
+
+    const { minhaLista, alterarQuantidade, calcularTotal } = useLista();
+
+    const toggleLista = () => {
+        setEstaAberto(!estaAberto);
+    };
+
+    return (
+        <aside className={`${styles['secao-lateral']} ${estaAberto ? styles.aberto : ''}`}>
+            <button className={styles['toggle-lista']} onClick={toggleLista}> 
+                <i className="fa-solid fa-chevron-left"></i> 
+                Lista
+            </button>
             <section className={styles.lista}>
-                <ul className={styles.listaItens}>
+                <ul className={styles['lista-itens']}>
+                    {minhaLista.length === 0 ? (
+                        <p className={styles.vazio}>Adicione Itens à Lista...</p>
+                    ) : (
+                        minhaLista.map((produto, indice) => (
+                            <li key={indice} className={styles['produto-lista']}>
+                                <Image src={produto.imagem} alt={produto.nome} width={100} height={100}/>
+                                <article className={styles['produto-info-lista']}>
+                                    <p> {produto.nome} </p>
+                                    <p> R$ {(produto.preco * produto.quantidade).toFixed(2).replace('.', ',')} </p>
+                                </article>
+                                <section className={styles['controle-quantidade']}>
+                                    <button onClick={() => alterarQuantidade(produto.id, 1)}>+</button>
+                                    <p> {produto.quantidade} </p>
+                                    <button onClick={() => alterarQuantidade(produto.id, -1)}>-</button>
+                                </section>
+                            </li>
+                        ))
+                    )}
                 </ul>
-
-                <footer className={styles.rodapeLista}>
-                    <p className={styles.precoTotal}>
-                        Total: R$ {somaTotal.toFixed(2).replace('.', ',')}
+                <footer className={styles['rodape-lista']}>
+                    <p className={styles['preco-total']}>
+                        Total: R$ {calcularTotal().toFixed(2).replace('.', ',')}
                     </p>
                 </footer>
             </section>
-
         </aside>
     );
-}
+};
+
+export default SecaoLateral;
 ~~~
 
-API de produtos 
+SecaoMercados.jsx
 ~~~js
-import { produtos } from "@/data/produtos.js";
+const SecaoMercados = ({ mercados }) => {
 
+    return (
+        <>
+            <article className={styles.titulo}>Mercados</article>
+            <section className={styles.mercados}>
+                { mercados.length === 0 ? (
+                    <p>Nenhum mercado encontrado.</p>
+                ) : ( 
+                    mercados.map(mercado => (
+                    <Link href={`/mercado/${mercado.id}`} key={mercado.endereco} className={styles['link-mercado']}>
+                    <CardMercado nome={mercado.nome} endereco={mercado.endereco} imagem={mercado.imagem}/>
+                    </Link>
+                ))
+                )}
+            </section>
+        </>
+    );
+};
+
+export default SecaoMercados;
+~~~
+
+SecaoOfertas
+~~~js
+const SecaoOfertas = ({ categorias, produtosFiltrados, categoriaAtiva, setCategoriaAtiva }) => {
+
+    return (
+        <section className={styles['secao-ofertas']}>
+            <article className={`${styles.titulo} ${styles.branco}`}>Ofertas Imperdíveis</article>
+            <section className={styles['categorias-desktop']}>
+                <ul className={styles['categorias-filtros']}>
+                    { categorias.map(categoria => (
+                        <li key={categoria} onClick={() => setCategoriaAtiva(categoria)} className={categoriaAtiva === categoria ? styles['filtro-ativo'] : ""}> {categoria} </li>
+                    ))}
+                </ul>
+            </section>
+            <section className={styles['categorias-mobile']}>
+                <select id="filtros-mobile" value={categoriaAtiva} onChange={(e) => setCategoriaAtiva(e.target.value)}>
+                    { categorias.map(categoria => (
+                        <option key={categoria} value={categoria}>{categoria}</option>
+                    ))}
+                </select>
+            </section>
+            <section className={styles.produtos}>
+                { produtosFiltrados.length === 0 ? (
+                    <p>Nenhum produto encontrado nesta categoria.</p>
+                ) : ( 
+                    produtosFiltrados.map(produto => ( 
+                        <CardProduto id={produto.id} nome={produto.nome} preco={produto.preco} imagem={produto.imagem} key={produto.id}/>
+                    ))
+                )}
+            </section>
+        </section>
+    );
+};
+
+export default SecaoOfertas;
+~~~
+
+Estrutura da pasta de APIs
+<img width="187" height="239" alt="image" src="https://github.com/user-attachments/assets/8583cf66-a1ef-4d86-93fb-1faebecf0675" />
+
+API de categorias
+~~~js
+// GET
 export async function GET() {
-  return Response.json(produtos);
+  return Response.json(db.categorias);
 }
 ~~~
 
-Chamando API de produtos na página inicial
+API de mercados (geral)
 ~~~js
-async function carregarProdutos() {
+// GET
+export async function GET() {
+  return Response.json(db.mercados);
+}
+~~~
+
+API de mercado (específico)
+~~~js
+// GET por ID
+export async function GET(request, context) {
+  const { id } = await context.params;
+  const numericId = Number(id);
+
+  const mercado = db.mercados.find((m) => m.id === numericId);
+
+  if (!mercado) {
+    return new Response("Produto não encontrado", { status: 404 });
+  }
+
+  return Response.json(mercado);
+}
+~~~
+
+API de produtos (geral)
+~~~js
+// GET
+export async function GET() {
+  return Response.json(db.produtos);
+}
+~~~
+
+API de produto (específico)
+~~~js
+// GET por ID
+export async function GET(request, context) {
+  const { id } = await context.params;
+  const numericId = Number(id);
+
+  const produto = db.produtos.find((p) => p.id === numericId);
+
+  if (!produto) {
+    return new Response("Produto não encontrado", { status: 404 });
+  }
+
+  return Response.json(produto);
+}
+~~~
+
+Chamando API de produtos, mercados e categorias na página inicial
+~~~js
+  async function carregarDados() {
     try {
-      const res = await fetch("/api/produtos");
-      const data = await res.json();
-      setProdutos(data);
+      const resProdutos = await fetch("/api/produtos");
+      const dataProdutos = await resProdutos.json();
+      setProdutos(dataProdutos);
+
+      const resMercados = await fetch("/api/mercados");
+      const dataMercados = await resMercados.json();
+      setMercados(dataMercados);
+
+      const resCategorias = await fetch("/api/categorias");
+      const dataCategorias = await resCategorias.json();
+      setCategorias(dataCategorias);
     } catch (erro) {
-      console.error("Erro ao buscar produtos:", erro);
+      console.error("Erro ao carregar os dados do API:", erro);
     } finally {
       setCarregando(false);
     }
   }
 
   useEffect(() => {
-    carregarProdutos();
+    carregarDados();
   }, []);
 ~~~
