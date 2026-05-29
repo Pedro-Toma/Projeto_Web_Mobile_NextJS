@@ -65,7 +65,7 @@ export default function PaginaMercado() {
     : produtosNesteMercado.filter(p => p.categoria === categoriaAtiva);
 
   return (
-    <main className="conteudo">
+    <main className={styles.conteudo}>
       <section className={styles['pagina-detalhes']}>
 
         <button className={styles.voltar}>

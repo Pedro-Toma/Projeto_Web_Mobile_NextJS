@@ -1,0 +1,36 @@
+.pesquisa-mobile {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    
+    .pesquisa-mobile {
+        display: flex;
+        font-size: 16px;
+        align-items: center;
+        background-color: color-mix(in srgb, var(--cor-header-lateral), white 4%);
+        padding: 15px 5px;
+        padding-left: 20px;
+        width: 100%;
+    }
+
+    .search-icon-mobile {
+        color: white;
+        margin-right: 10px;
+    }
+
+    .busca-mobile {
+        font-size: 16px;
+        background-color: transparent;
+        border: none;
+        color: white;
+        padding: 6px;
+        margin-right: 20px;
+        float: right;
+    }
+
+    .busca-mobile::placeholder {
+        font-size: 16px;
+        color: white;
+    }
+}

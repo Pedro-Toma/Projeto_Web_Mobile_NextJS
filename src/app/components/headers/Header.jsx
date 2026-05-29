@@ -25,11 +25,11 @@ const Header = () => {
 
     return (
         <header className={styles.header}>
-            <Link href={'/'}>
+            <Link href={'/'} className={styles['link-logo']}>
                 <h3 className={styles.titulo}> Lista Barata </h3>
             </Link>
-            <Link href={'/sobreNos'}>
-                <h3 className={styles.titulo}> Sobre nós </h3>
+            <Link href={'/contatos'} className={styles['link-logo']}>
+                <h3 className={styles.titulo}> Contatos </h3>
             </Link>
             {pathname === '/' && (
                 <form id="Pesquisa" className={styles['pesquisa-desktop']} onSubmit={dispararBusca}>

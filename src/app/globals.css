@@ -69,21 +69,3 @@ body {
         padding-bottom: 30px;
     }
 }
-
-/* Conteúdo principal (main) */
-
-.conteudo {
-    min-height: 85vh;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    padding-right: 40px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-@media (max-width: 600px) {
-    .conteudo {
-        padding-right: 0px;
-    }
-}

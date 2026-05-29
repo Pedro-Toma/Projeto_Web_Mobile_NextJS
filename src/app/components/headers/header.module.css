@@ -12,6 +12,19 @@
     z-index: 1;
 }
 
+.link-logo {
+    text-decoration: none;
+    outline: none;
+}
+
+.link-logo:active .titulo {
+    color: var(--cor-principal);           
+}
+
+.link-logo:hover .titulo {
+    filter: opacity(0.6);
+}
+
 .titulo{
     width: auto;
     display: flex;

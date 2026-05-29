@@ -1,0 +1,53 @@
+.titulo { 
+    text-align: center;
+    padding: 20px 0px;
+    font-size: 24pt;
+}
+
+@media (max-width: 600px) {
+
+    .titulo {
+        font-size: 18pt;
+    }
+}
+
+.mercados {
+    height: 260px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow-x: auto;
+    max-width: calc(100vw - 55px);
+}
+
+.link-mercado {
+    color: black;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+@media (min-width: 600px) {
+    
+    .link-mercado:first-child {
+        margin-left: auto;
+    }
+
+    .link-mercado:last-child {
+        margin-right: auto;
+    }
+}
+
+.mercados::-webkit-scrollbar {
+    height: 8px;
+}
+
+.mercados::-webkit-scrollbar-track {
+    background-color: var(--cor-header-lateral);
+    border-radius: 6px;
+}
+
+.mercados::-webkit-scrollbar-thumb {
+    background-color: color-mix(in srgb, var(--cor-principal), white 50%);
+    border-radius: 6px;
+}

@@ -48,7 +48,7 @@ export default function Produto() {
   }
 
   return (
-    <main className="conteudo">
+    <main className={styles.conteudo}>
       <section className={styles['pagina-detalhes']}>
         {!produto ? (
           <>
