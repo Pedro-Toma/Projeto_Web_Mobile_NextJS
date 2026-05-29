@@ -83,11 +83,7 @@ export default function Produto() {
                           R$ {oferta.preco.toFixed(2).replace('.', ',')}
                         </p>
                       </div>
-                      <button className={styles['adicionar-produto']}
-                        data-nome={produto.nome} 
-                        data-preco={oferta.preco} 
-                        data-imagem={produto.imagem}
-                        onClick={() => adicionarProduto({
+                      <button className={styles['adicionar-produto']} onClick={() => adicionarProduto({
                           id: produto.id, 
                           nome: produto.nome, 
                           preco: oferta.preco, 
